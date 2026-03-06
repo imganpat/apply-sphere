@@ -9,8 +9,7 @@ from jobs.serializers import JobApplicationSerializer
 class JobApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = JobApplicationSerializer
     permission_classes = [IsAuthenticated]
- JobApplication
-from jobs.serializers import JobApplicationSerializer
+
     def get_queryset(self):
         return JobApplication.objects.filter(user=self.request.user)
 
