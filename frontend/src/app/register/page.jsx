@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { loginUser } from "@/lib/api";
+import { registerUser } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ full_name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,13 +24,12 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const data = await loginUser(form);
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
-      confirm("Login successful! Click OK to go to your dashboard.");
-      router.push("/dashboard");
+      await registerUser(form);
+      // Auto-login after register
+      // router.push("/login?registered=true");
+      router.push("/login");
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      setError(err.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -40,8 +39,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Card className="w-full max-w-md py-10 px-4 shadow-md">
         <CardHeader>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Login to your ApplySphere account</CardDescription>
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>Start tracking your job applications today</CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
@@ -51,6 +50,19 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
+
+            <div className="space-y-1">
+              <Label htmlFor="full_name">Full Name</Label>
+              <Input
+                id="full_name"
+                name="full_name"
+                type="text"
+                placeholder="John Doe"
+                value={form.full_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
             <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
@@ -78,15 +90,15 @@ export default function LoginPage() {
               />
             </div>
           </CardContent>
-            
+
           <CardFooter className="flex flex-col gap-3">
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Creating account..." : "Register"}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
-              Don't have an account?{" "}
-              <Link href="/register" className="text-primary underline underline-offset-4">
-                Register
+              Already have an account?{" "}
+              <Link href="/login" className="text-primary underline underline-offset-4">
+                Login
               </Link>
             </p>
           </CardFooter>
