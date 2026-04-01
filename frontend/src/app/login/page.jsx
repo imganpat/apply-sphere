@@ -10,6 +10,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
+  const token = localStorage.getItem("access_token");
+  if(token){
+    window.location.href = "/dashboard"
+  }
+
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -24,10 +29,10 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      console.log(form)
       const data = await loginUser(form);
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
-      confirm("Login successful! Click OK to go to your dashboard.");
       router.push("/dashboard");
     } catch (err) {
       setError(err.message || "Invalid email or password");
@@ -37,61 +42,65 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md py-10 px-4 shadow-md">
-        <CardHeader>
-          <CardTitle className="text-2xl">Welcome back</CardTitle>
-          <CardDescription>Login to your ApplySphere account</CardDescription>
-        </CardHeader>
+    // !token ? (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Card className="w-full max-w-md py-10 px-4 shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl">Welcome back</CardTitle>
+            <CardDescription>Login to your ApplySphere account</CardDescription>
+          </CardHeader>
 
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
-            {error && (
-              <div className="text-sm text-red-500 bg-red-50 border border-red-200 rounded px-3 py-2">
-                {error}
+          <form onSubmit={handleSubmit}>
+            <CardContent className="space-y-4">
+              {error && (
+                <div className="text-sm text-red-500 bg-red-50 border border-red-200 rounded px-3 py-2">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-1">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            )}
 
-            <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                value={form.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
+              <div className="space-y-1">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </CardContent>
 
-            <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </CardContent>
-            
-          <CardFooter className="flex flex-col gap-3">
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
-            </Button>
-            <p className="text-sm text-muted-foreground text-center">
-              Don't have an account?{" "}
-              <Link href="/register" className="text-primary underline underline-offset-4">
-                Register
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
-      </Card>
-    </div>
+            <CardFooter className="flex flex-col gap-3">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </Button>
+              <p className="text-sm text-muted-foreground text-center">
+                Don't have an account?{" "}
+                <Link href="/register" className="text-primary underline underline-offset-4">
+                  Register
+                </Link>
+              </p>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    // ) : (
+    //   window.location.href = "/dashboard"
+    // )
   );
 }

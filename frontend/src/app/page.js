@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  // const token = localStorage.getItem("access_token");
-  const token = true;
+  const token = localStorage.getItem("access_token");
   return (
     token ? (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

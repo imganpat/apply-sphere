@@ -1,13 +1,25 @@
+"use client"
+
 import { AppSidebar } from "@/components/app-sidebar"
-// import data from "./data.json"
-// import { DataTable } from "@/components/data-table"
-// import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { getJobs } from "@/lib/api"
+import { useEffect, useState } from "react"
 
 export default function Layout({ children }) {
+  const [applications, setApplications] = useState([]);
+
+  const getApplications = async () =>{
+    setApplications(await getJobs());
+  }
+
+  useEffect(() => {
+    getApplications();
+  }, [])
+  
+
   return <>
     <TooltipProvider>
 
@@ -28,7 +40,15 @@ export default function Layout({ children }) {
                 <div className="px-4 lg:px-6">
                 </div>
                 {/* Recent applications */}
-
+                {!applications ? (
+                  <div>
+                    No applications
+                  </div>
+                  ) : (
+                      applications.forEach(e => { 
+                        console.log(e)
+                      })
+                  )}
               </div>
             </div>
           </div>
