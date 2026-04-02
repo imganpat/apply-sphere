@@ -38,7 +38,7 @@ const request = async (endpoint, options= {}) => {
 // Auth
 
 export const registerUser = (userData) => {
-    request("api/register/", {
+    return request("api/register/", {
         method: "POST",
         body: JSON.stringify(userData),
     });

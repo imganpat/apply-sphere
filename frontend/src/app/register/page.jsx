@@ -27,7 +27,7 @@ export default function RegisterPage() {
       await registerUser(form);
       // Auto-login after register
       // router.push("/login?registered=true");
-      router.push("/login");
+      router.replace("/login");
     } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
     } finally {
