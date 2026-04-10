@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, CardAction, CardDescription, CardHeader, CardTitle } from './ui/card'
-import { Badge, TrendingUpIcon } from 'lucide-react'
 
 export const StatCard = ({ label, value, trend, icon: Icon, color }) => {
     const colorClasses = {
