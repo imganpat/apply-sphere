@@ -18,7 +18,9 @@ export default function Layout({ children }) {
         <AppSidebar variant="inset" collapsible="icon" />
         <SidebarInset>
           <SiteHeader />
-          {children}
+          <div className="p-4 lg:p-6">
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

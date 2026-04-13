@@ -6,6 +6,8 @@ import { SectionCards } from "@/components/section-cards";
 import RecentApplications from "@/components/RecentApplications";
 import AnalysisCard from "@/components/AnalysisCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export default function Page() {
   const [applications, setApplications] = useState([]);
@@ -20,12 +22,26 @@ export default function Page() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
+        <div className='flex justify-between mb-2 items-center'>
+          <div className='flex gap-1 flex-col'>
+            <h3 className='text-3xl font-bold'>
+              Dashboard
+            </h3>
+            <p>Track your job applications and progress</p>
+          </div>
+          <div>
+            <Button>
+              <Plus />
+              Add application
+            </Button>
+          </div>
+        </div>
         {/* Cards section */}
-        <div className="flex flex-col gap-4py-4 md:gap-6 md:py-6">
+        <div className="flex flex-col gap-4 md:gap-6 ">
           <SectionCards />
         </div>
 
-        <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
+        <div className="container mx-auto dark:text-gray-800">
           <div className="overflow-x-auto">
             <div className="flex gap-4">
               {/* Recent applications */}

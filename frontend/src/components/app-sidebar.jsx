@@ -23,9 +23,16 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: (
         <LayoutDashboardIcon />
+      ),
+    },
+    {
+      title: "Applications",
+      url: "/dashboard/applications",
+      icon: (
+        <FileUser />
       ),
     },
     {
@@ -33,13 +40,6 @@ const data = {
       url: "#",
       icon: (
         <ChartBarIcon />
-      ),
-    },
-    {
-      title: "Applications",
-      url: "#",
-      icon: (
-        <FileUser />
       ),
     },
     {

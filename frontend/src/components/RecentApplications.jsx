@@ -8,14 +8,14 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card } from "./ui/card"
-import { Badge } from "./ui/badge"
+import { Badge, StatusBadge } from "./ui/badge"
 
 const Row = ({ company, position, status, appliedOn }) => {
   return (
     <TableRow className="p-4">
       <TableCell className={"p-4 w-52 "}>{company}</TableCell>
       <TableCell>{position}</TableCell>
-      <TableCell><Badge variant="secondary">{status}</Badge></TableCell>
+      <TableCell><StatusBadge status={status} /></TableCell>
       <TableCell className={"w-10 "}>{appliedOn}</TableCell>
     </TableRow>
   );
@@ -24,7 +24,7 @@ const Row = ({ company, position, status, appliedOn }) => {
 
 export default function RecentApplications({ applications }) {
   return (
-    <Card className="p-4 w-4/6 overflow-auto h-96 rounded-2xl">
+    <Card className="w-4/6 overflow-auto h-96 rounded-2xl">
       <h2 className="text-xl font-semibold leading-tight">Recent Applications</h2>
       <Card className={"p-0 relative"}>
         <Table>

@@ -370,7 +370,7 @@ export function DataTable({
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-        <Select defaultValue="outline">
+        {/* <Select defaultValue="outline">
           <SelectTrigger className="flex w-fit @4xl/main:hidden" size="sm" id="view-selector">
             <SelectValue placeholder="Select a view" />
           </SelectTrigger>
@@ -382,8 +382,11 @@ export function DataTable({
               <SelectItem value="focus-documents">Focus Documents</SelectItem>
             </SelectGroup>
           </SelectContent>
-        </Select>
-        <TabsList
+        </Select> */}
+        <div className="">
+          <input type="search" name="" id="" placeholder="Search..." />
+        </div>
+        {/* <TabsList
           className="hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1 @4xl/main:flex">
           <TabsTrigger value="outline">Outline</TabsTrigger>
           <TabsTrigger value="past-performance">
@@ -393,7 +396,7 @@ export function DataTable({
             Key Personnel <Badge variant="secondary">2</Badge>
           </TabsTrigger>
           <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
-        </TabsList>
+        </TabsList> */}
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -407,8 +410,8 @@ export function DataTable({
               {table
                 .getAllColumns()
                 .filter((column) =>
-                typeof column.accessorFn !== "undefined" &&
-                column.getCanHide())
+                  typeof column.accessorFn !== "undefined" &&
+                  column.getCanHide())
                 .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
@@ -424,10 +427,10 @@ export function DataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" size="sm">
+          {/* <Button variant="outline" size="sm">
             <PlusIcon />
             <span className="hidden lg:inline">Add Section</span>
-          </Button>
+          </Button> */}
         </div>
       </div>
       <TabsContent
