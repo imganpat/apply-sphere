@@ -27,12 +27,12 @@ class JobApplication(models.Model):
         related_name="applications",
     )
 
-    company_name = models.CharField(max_length=255)
-    job_title = models.CharField(max_length=255)
+    company = models.CharField(max_length=255)
+    role = models.CharField(max_length=255)
     job_link = models.URLField(blank=True)
     location = models.CharField(max_length=255)
-    source = models.CharField(max_length=100)
     salary = models.CharField(max_length=100, blank=True)
+    source = models.CharField(max_length=100)
 
     status = models.CharField(
         max_length=20,
@@ -42,6 +42,9 @@ class JobApplication(models.Model):
 
     applied_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def clean(self):
         if not self.pk:
@@ -74,7 +77,7 @@ class JobApplication(models.Model):
             )
 
     def __str__(self):
-        return f"{self.company_name} - {self.job_title}"
+        return f"{self.company} - {self.role}"  # Fixed: was company_name, job_title
 
 
 class StatusHistory(models.Model):
@@ -96,6 +99,9 @@ class StatusHistory(models.Model):
 
     changed_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ["-changed_at"]
+
     def __str__(self):
         return f"{self.application} - {self.old_status} → {self.new_status}"
     
@@ -115,6 +121,9 @@ class ApplicationNote(models.Model):
     content = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"Note for {self.application} by {self.author.email}"
