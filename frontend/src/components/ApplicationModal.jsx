@@ -178,19 +178,19 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                                     <SelectValue placeholder="Select status" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="APPLIED">
+                                    <SelectItem value="applied">
                                         Applied
                                     </SelectItem>
-                                    <SelectItem value="SCREENING">
+                                    <SelectItem value="screening">
                                         Screening
                                     </SelectItem>
-                                    <SelectItem value="INTERVIEW">
+                                    <SelectItem value="interview">
                                         Interview
                                     </SelectItem>
-                                    <SelectItem value="OFFER">
+                                    <SelectItem value="offer">
                                         Offer
                                     </SelectItem>
-                                    <SelectItem value="REJECTED">
+                                    <SelectItem value="rejected">
                                         Rejected
                                     </SelectItem>
                                 </SelectContent>
