@@ -2,10 +2,10 @@ const BASE_URL = "http://localhost:8000/";
 
 const getToken = () => localStorage.getItem("access_token");
 
-const request = async (endpoint, options= {}) => {
+const request = async (endpoint, options = {}) => {
     const headers = {
         "Content-Type": "application/json",
-        ...(getToken() && {Authorization: `Bearer ${getToken()}`}),
+        ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
         ...options.headers,
     }
 
@@ -14,20 +14,20 @@ const request = async (endpoint, options= {}) => {
         headers,
     });
 
-    if(res.status === 401) {
+    if (res.status === 401) {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         window.location.href = "/login/";
         return;
     }
 
-    if(res.status === 204) {
+    if (res.status === 204) {
         return null; // No content
     }
 
     const data = await res.json();
 
-    if(!res.ok){
+    if (!res.ok) {
         throw new Error(data?.detail || JSON.stringify(data) || "Something went wrong");
     }
 
