@@ -5,12 +5,12 @@ from django.core.exceptions import ValidationError
 
 class JobApplication(models.Model):
     class Status(models.TextChoices):
-        APPLIED = "APPLIED", "Applied"
-        SCREENING = "SCREENING", "Screening"
-        INTERVIEW = "INTERVIEW", "Interview"
-        OFFER = "OFFER", "Offer"
-        ACCEPTED = "ACCEPTED", "Accepted"
-        REJECTED = "REJECTED", "Rejected"
+        APPLIED = "applied", "Applied"
+        SCREENING = "screening", "Screening"
+        INTERVIEW = "interview", "Interview"
+        OFFER = "offer", "Offer"
+        ACCEPTED = "accepted", "Accepted"
+        REJECTED = "rejected", "Rejected"
 
     STATUS_FLOW = {
         Status.APPLIED: [Status.SCREENING, Status.REJECTED],
@@ -104,19 +104,14 @@ class StatusHistory(models.Model):
 
     def __str__(self):
         return f"{self.application} - {self.old_status} → {self.new_status}"
-    
+
 
 class ApplicationNote(models.Model):
     application = models.ForeignKey(
-        JobApplication,
-        on_delete=models.CASCADE,
-        related_name="notes"
+        JobApplication, on_delete=models.CASCADE, related_name="notes"
     )
 
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     content = models.TextField()
 
