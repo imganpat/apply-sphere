@@ -1,64 +1,45 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Card } from "./ui/card"
-import { Badge, StatusBadge } from "./ui/badge"
-
-const Row = ({ company, position, status, appliedOn }) => {
-  return (
-    <TableRow className="p-4">
-      <TableCell className={"p-4 w-52 "}>{company}</TableCell>
-      <TableCell>{position}</TableCell>
-      <TableCell><StatusBadge status={status} /></TableCell>
-      <TableCell className={"w-10 "}>{appliedOn}</TableCell>
-    </TableRow>
-  );
-}
-
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { StatusBadge } from "./ui/badge"
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 export default function RecentApplications({ applications }) {
   return (
-    <Card className="w-4/6 overflow-auto h-96 rounded-2xl">
-      <h2 className="text-xl font-semibold leading-tight">Recent Applications</h2>
-      <Card className={"p-0 relative"}>
-        <Table>
-          <TableHeader>
-            <TableRow className={"bg-sidebar sticky top-0 z-10"}>
-              <TableHead className={"pl-4 py-4 font-semibold uppercase"}>Company</TableHead>
-              <TableHead className={"py-4 font-semibold uppercase"}>Position</TableHead>
-              <TableHead className={"py-4 font-semibold uppercase"}>Status</TableHead>
-              <TableHead className={"py-4 font-semibold uppercase w-28"}>Applied On</TableHead>
-              {/* <TableHead className="text-right">Actions</TableHead> */}
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {applications.map((application) => (
-              <Row
-                key={application.id}
-                company={application.company_name}
-                position={application.job_title}
-                status={application.status}
-                appliedOn={new Date(application.created_at).toLocaleDateString()}
-              />
-            ))}
-          </TableBody>
-
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={4} className="text-center p-3">
-                View all applications
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </Card>
-    </Card>
+    <Card className={"border-l-1 w-full sm:w-4/6"} >
+      <CardHeader>
+        <CardTitle className={"text-lg font-semibold"}>Recent Applications</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {applications.map((app) => (
+            <div
+              key={app.id}
+              className="flex items-center justify-between p-4 rounded-lg border border-border hover:bg-accent/50 transition-colors"
+            >
+              <div className="flex-1">
+                <h4 className="font-medium mb-1">{app.company}</h4>
+                <p className="text-sm text-muted-foreground">{app.role}</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(app.created_at).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric"
+                    })}
+                  </p>
+                </div>
+                <StatusBadge status={app.status} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <Link href="/dashboard/applications">
+          <Button variant="outline" className="w-full mt-4">
+            View All Applications
+          </Button>
+        </Link>
+      </CardContent>
+    </Card >
   )
 }
