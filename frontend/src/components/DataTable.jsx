@@ -10,11 +10,15 @@ import { StatusBadge } from './ui/badge';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
-export default function DataTable() {
+export default function DataTable({ onEdit }) {
     const [filteredApplications, setFilteredApplications] = useState([]);
 
     const getApplications = async () => {
         setFilteredApplications(await getJobs());
+    }
+
+    const handleEdit = (app) => {
+        setOpen(true);
     }
 
     useEffect(() => {
@@ -64,12 +68,12 @@ export default function DataTable() {
                                     <TableCell className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center font-bold text-indigo-600 shrink-0">
-                                                {app.company_name[0]}
+                                                {app.company[0]}
                                             </div>
                                             <div className="min-w-0">
-                                                <p className="font-semibold text-lg text-gray-900 dark:text-white truncate">{app.company_name}</p>
+                                                <p className="font-semibold text-lg text-gray-900 dark:text-white truncate">{app.company}</p>
                                                 {true && (
-                                                    <a href={app.link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
+                                                    <a href={app.job_link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
                                                         Website <ExternalLink size={10} />
                                                     </a>
                                                 )}
@@ -77,7 +81,7 @@ export default function DataTable() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="px-6 py-4">
-                                        <p className="text-sm font-medium text-gray-900 dark:text-white">{app.job_title}</p>
+                                        <p className="text-sm font-medium text-gray-900 dark:text-white">{app.role}</p>
                                         <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
                                             <MapPin size={12} />
                                             <span className="truncate">{app.location || 'Not specified'}</span>
@@ -94,7 +98,9 @@ export default function DataTable() {
                                         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                             <button
                                                 className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-all"
-                                            // onClick={() => { setEditApp(app); setIsModalOpen(true); }}
+                                                // onClick={() => { setEditApp(app); setIsModalOpen(true); }}
+                                                onClick={() => onEdit(app)}
+
                                             >
                                                 <Edit2 size={16} />
                                             </button>
