@@ -11,10 +11,10 @@ import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 export default function DataTable({ onEdit }) {
-    const [filteredApplications, setFilteredApplications] = useState([]);
+    const [applications, setApplications] = useState([]);
 
     const getApplications = async () => {
-        setFilteredApplications(await getJobs());
+        setApplications(await getJobs());
     }
 
     const handleEdit = (app) => {
@@ -62,8 +62,8 @@ export default function DataTable({ onEdit }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody className="divide-y divide-gray-100 dark:divide-gray-700">
-                        {filteredApplications.length > 0 ? (
-                            filteredApplications.map(app => (
+                        {applications.length > 0 ? (
+                            applications.map(app => (
                                 <TableRow key={app.id} className={"group"}>
                                     <TableCell className="px-6 py-4">
                                         <div className="flex items-center gap-3">
