@@ -4,7 +4,7 @@ import { TrendingUp } from "lucide-react";
 
 export default function AnalysisCard() {
     return (
-        <Card>
+        <Card className={"@container/card border-r-1"}>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-green-500" />

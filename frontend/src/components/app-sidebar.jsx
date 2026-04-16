@@ -12,7 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, FileUser, ChartBarIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, CommandIcon, User } from "lucide-react"
+import { LayoutDashboardIcon, Settings2Icon, User, Briefcase, FileText, BarChart3 } from "lucide-react"
+import Link from "next/link"
 
 const data = {
   user: {
@@ -32,14 +33,14 @@ const data = {
       title: "Applications",
       url: "/dashboard/applications",
       icon: (
-        <FileUser />
+        <FileText />
       ),
     },
     {
       title: "Analytics",
       url: "#",
       icon: (
-        <ChartBarIcon />
+        <BarChart3 />
       ),
     },
     {
@@ -67,11 +68,13 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
-              <a href="#">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">ApplySphere</span>
-              </a>
+            <SidebarMenuButton asChild>
+              <Link href="/dashboard">
+                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                  <Briefcase className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <span className="text-base text-lg font-semibold">ApplySphere</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -82,6 +85,6 @@ export function AppSidebar({
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   );
 }

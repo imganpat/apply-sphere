@@ -65,7 +65,7 @@ function StatusBadge({ status }) {
   const { variant, Icon } = STATUS_CONFIG[status] || STATUS_CONFIG['Applied'];
 
   return (
-    <Badge variant={variant}>
+    <Badge variant={variant} className={"capitalize"}>
       <Icon size={12} className="mr-1" />
       {status}
     </Badge>
