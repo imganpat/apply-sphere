@@ -9,21 +9,19 @@ import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
 import { StatusBadge } from './ui/badge';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { useQuery } from "@tanstack/react-query";
 
 export default function DataTable({ onEdit }) {
-    const [applications, setApplications] = useState([]);
-
-    const getApplications = async () => {
-        setApplications(await getJobs());
-    }
-
     const handleEdit = (app) => {
         setOpen(true);
     }
+    const { data: applications = [], isLoading } = useQuery({
+        queryKey: ["applications"],
+        queryFn: getJobs,
+    });
 
-    useEffect(() => {
-        getApplications();
-    }, [])
+    if (isLoading) return <div>Loading...</div>;
+
     return (<>
 
         <div className="flex flex-col sm:flex-row gap-4 my-5">

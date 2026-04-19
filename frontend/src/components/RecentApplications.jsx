@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 export default function RecentApplications({ applications }) {
+
   return (
     <Card className={"border-l-1 w-full sm:w-4/6"} >
       <CardHeader>

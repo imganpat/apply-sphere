@@ -63,10 +63,10 @@ export const refreshToken = (refreshToken) => {
 export const getJobs = () => request("api/jobs/");
 
 export const createJob = (jobData) => {
-    request("api/jobs/", {
+    return request("api/jobs/", {
         method: "POST",
         body: JSON.stringify(jobData),
-    })
+    });
 }
 
 export const deleteJob = (jobId) => {

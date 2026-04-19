@@ -1,22 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react";
 import { getJobs } from "@/lib/api";
 import { SectionCards } from "@/components/section-cards";
 import RecentApplications from "@/components/RecentApplications";
 import AnalysisCard from "@/components/AnalysisCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Page() {
-  const [applications, setApplications] = useState([]);
+  const { data: applications = [], isLoading } = useQuery({
+    queryKey: ["applications"],
+    queryFn: getJobs,
+  });
 
-  const getApplications = async () => {
-    setApplications(await getJobs());
-  }
 
-  useEffect(() => {
-    getApplications();
-  }, [])
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">

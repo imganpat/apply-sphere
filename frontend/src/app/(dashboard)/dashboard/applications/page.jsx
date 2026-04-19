@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import DataTable from '@/components/DataTable'
 import ApplicationModal from '@/components/ApplicationModal'
 import { Button } from '@/components/ui/button'

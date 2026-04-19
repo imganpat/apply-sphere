@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "./ui/select";
 import { createJob } from '@/lib/api'
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function ApplicationModal({ open, application, onOpenChange }) {
 
@@ -72,16 +73,28 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         notes: "",
     }
 
-    const handleSubmit = (e) => {
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: createJob,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["applications"],
+            });
+        },
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (application) {
             console.log("edit application ", formData);
         } else {
-            createJob(formData);
+            await mutation.mutateAsync(formData);
         }
-        // setFormData(emptyForm);
+
         onOpenChange(false);
-    }
+    };
 
     const handleChange = (field, value) => {
         setFormData((prev) => ({
