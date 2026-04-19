@@ -2,7 +2,13 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 
-export default function AnalysisCard() {
+export default function AnalysisCard({ applications }) {
+    const totalApplications = applications.length;
+    const interviews = applications.filter(app => app.status === "interview").length;
+    const offers = applications.filter(app => app.status === "offer").length;
+    const interviewRate = totalApplications > 0 ? (interviews / totalApplications) * 100 : 0;
+    const offerRate = totalApplications > 0 ? (offers / totalApplications) * 100 : 0;
+
     return (
         <Card className={"@container/card border-r-1"}>
             <CardHeader>
@@ -19,13 +25,13 @@ export default function AnalysisCard() {
                                 Interview Rate
                             </span>
                             <span className="text-sm font-medium">
-                                80%
+                                {interviewRate.toFixed(1)}%
                             </span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-purple-500 rounded-full transition-all"
-                                style={{ width: `80%` }}
+                                style={{ width: `${interviewRate}%` }}
                             />
                         </div>
                     </div>
@@ -35,13 +41,13 @@ export default function AnalysisCard() {
                                 Offer Rate
                             </span>
                             <span className="text-sm font-medium">
-                                60%
+                                {offerRate.toFixed(1)}%
                             </span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-green-500 rounded-full transition-all"
-                                style={{ width: `60%` }}
+                                style={{ width: `${offerRate}%` }}
                             />
                         </div>
                     </div>

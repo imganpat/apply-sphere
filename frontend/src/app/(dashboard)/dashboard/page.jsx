@@ -29,7 +29,7 @@ export default function Page() {
         </div>
         {/* Cards section */}
         <div className="flex flex-col gap-4 md:gap-6 ">
-          <SectionCards />
+          <SectionCards applications={applications} />
         </div>
 
         <div className="container dark:text-gray-800">
@@ -40,7 +40,7 @@ export default function Page() {
 
               {/* Analysis and tips */}
               <div className="flex flex-col w-full sm:w-2/6 h-96 rounded-2xl gap-4">
-                <AnalysisCard />
+                <AnalysisCard applications={applications} />
                 <Card className={"@container/card border-r-1"}>
                   <CardHeader>
                     <CardTitle>Tips to Improve Your Success Rate</CardTitle>
