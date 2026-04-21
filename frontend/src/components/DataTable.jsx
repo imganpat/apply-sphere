@@ -18,12 +18,22 @@ export default function DataTable({ onEdit }) {
     });
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
 
     if (isLoading) return <div>Loading...</div>;
 
-    const filterApplications = applications.filter(app =>
-        app.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        app.role.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filterApplications = applications.filter(app => {
+        const matchesSearch =
+            app.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            app.role.toLowerCase().includes(searchQuery.toLowerCase())
+
+        const matchesStatus =
+            statusFilter === "" || app.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+    }
+
+    );
 
     const handleEdit = (app) => {
         setOpen(true);
@@ -43,16 +53,16 @@ export default function DataTable({ onEdit }) {
                         autoComplete="off"
                     />
                 </div>
-                <Select>
+                <Select onValueChange={(value) => setStatusFilter(value === "all" ? "" : value)}>
                     <SelectTrigger className="w-full sm:w-[180px]">
                         <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">All Statuses</SelectItem>
-                        <SelectItem value="Applied">Applied</SelectItem>
-                        <SelectItem value="Interview">Interview</SelectItem>
-                        <SelectItem value="Offer">Offer</SelectItem>
-                        <SelectItem value="Rejected">Rejected</SelectItem>
+                        <SelectItem value="applied">Applied</SelectItem>
+                        <SelectItem value="interview">Interview</SelectItem>
+                        <SelectItem value="offer">Offer</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
