@@ -30,7 +30,6 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         status: "",
         applied_date: "",
         jobLink: "",
-        notes: "",
     });
 
     useEffect(() => {
@@ -44,7 +43,6 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                 source: application.source ?? "",
                 applied_date: application.applied_date?.split("T")[0] ?? "",
                 jobLink: application.job_link ?? "",
-                notes: application.notes ?? "",
             })
         } else {
             setFormData({
@@ -56,7 +54,6 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                 source: "",
                 applied_date: "",
                 jobLink: "",
-                notes: "",
             })
         }
     }, [application, open])
@@ -70,7 +67,6 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         source: "",
         applied_date: "",
         jobLink: "",
-        notes: "",
     }
 
     const queryClient = useQueryClient();
