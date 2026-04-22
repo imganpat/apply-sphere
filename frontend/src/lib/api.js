@@ -69,6 +69,13 @@ export const createJob = (jobData) => {
     });
 }
 
+export const updateApplication = (id, jobData) => {
+    return request(`api/jobs/${id}/`, {
+        method: "PUT",
+        body: JSON.stringify(jobData),
+    })
+}
+
 export const deleteJob = (jobId) => {
     request(`api/jobs/${jobId}/`, {
         method: "DELETE",

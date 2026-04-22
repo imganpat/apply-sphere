@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "./ui/select";
-import { createJob } from '@/lib/api'
+import { createJob, updateApplication, } from '@/lib/api'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function ApplicationModal({ open, application, onOpenChange }) {
@@ -76,7 +76,10 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: createJob,
+        mutationFn: ({ type, id, formData }) => (type == "edit")
+            ? updateApplication(id, formData)
+            : createJob(formData),
+
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ["applications"],
@@ -88,9 +91,16 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         e.preventDefault();
 
         if (application) {
-            console.log("edit application ", formData);
+            await mutation.mutateAsync({
+                type: "edit",
+                id: application.id,
+                formData
+            })
         } else {
-            await mutation.mutateAsync(formData);
+            await mutation.mutateAsync({
+                type: "create",
+                formData
+            });
         }
 
         onOpenChange(false);
@@ -248,8 +258,14 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                         >
                             Cancel
                         </Button>
-                        <Button type="submit">
-                            {application ? "Update" : "Add"} Application
+                        <Button type="submit"
+                            disabled={mutation.isPending}
+                        >
+                            {
+                                mutation.isPending
+                                    ? application ? "Updating..." : "Adding..."
+                                    : application ? "Update Application" : "Add Application"
+                            }
                         </Button>
                     </div>
                 </form>
