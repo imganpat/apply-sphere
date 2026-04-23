@@ -77,7 +77,7 @@ export const updateApplication = (id, jobData) => {
 }
 
 export const deleteJob = (jobId) => {
-    request(`api/jobs/${jobId}/`, {
+    return request(`api/jobs/${jobId}/`, {
         method: "DELETE",
     })
 }

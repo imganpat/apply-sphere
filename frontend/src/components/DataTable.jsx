@@ -1,26 +1,59 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Card } from './ui/card'
-import { getJobs } from '@/lib/api';
 import { Button } from './ui/button';
-import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
 import { StatusBadge } from './ui/badge';
 import { Input } from './ui/input';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogFooter,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { useQuery } from "@tanstack/react-query";
+import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteJob, getJobs } from '@/lib/api';
+
 
 export default function DataTable({ onEdit }) {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
+
     const { data: applications = [], isLoading } = useQuery({
         queryKey: ["applications"],
         queryFn: getJobs,
     });
 
-    const [searchQuery, setSearchQuery] = useState("");
-    const [statusFilter, setStatusFilter] = useState("");
+    const QueryClient = useQueryClient();
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteJob,
+        onSuccess: (_, deletedId) => {
+            QueryClient.setQueryData(["applications"], (oldData) =>
+                oldData.filter((app) => app.id !== deletedId)
+            );
+
+            QueryClient.invalidateQueries({
+                queryKey: ["applications"],
+            });
+        }
+    })
+
+
+    const handleDelete = async (id) => {
+        await deleteMutation.mutateAsync(id);
+    }
+
 
     if (isLoading) return <div>Loading...</div>;
+
 
     const filterApplications = applications.filter(app => {
         const matchesSearch =
@@ -31,13 +64,7 @@ export default function DataTable({ onEdit }) {
             statusFilter === "" || app.status === statusFilter;
 
         return matchesSearch && matchesStatus;
-    }
-
-    );
-
-    const handleEdit = (app) => {
-        setOpen(true);
-    }
+    });
 
     return (
         <>
@@ -117,18 +144,34 @@ export default function DataTable({ onEdit }) {
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button
                                                     className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-all"
-                                                    // onClick={() => { setEditApp(app); setIsModalOpen(true); }}
                                                     onClick={() => onEdit(app)}
 
                                                 >
                                                     <Edit2 size={16} />
                                                 </button>
-                                                <button
-                                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-all"
-                                                // onClick={() => deleteApplication(app.id)}
-                                                >
-                                                    <Trash2 size={16} />
-                                                </button>
+
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <button className="p-2 text-gray-400 hover:text-red-500">
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </AlertDialogTrigger>
+
+                                                    <AlertDialogContent size='sm'>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>
+                                                                Are you sure you want to delete this job?
+                                                            </AlertDialogTitle>
+                                                        </AlertDialogHeader>
+
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleDelete(app.id)}>
+                                                                Delete
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
                                             </div>
                                         </TableCell>
                                     </TableRow>
