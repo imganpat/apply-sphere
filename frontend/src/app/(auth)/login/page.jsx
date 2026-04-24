@@ -28,8 +28,8 @@ export default function LoginPage() {
   }, [router]);
 
   if (checkingAuth) {
-  return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-}
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -39,7 +39,7 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    try {router
+    try {
       const data = await loginUser(form);
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);

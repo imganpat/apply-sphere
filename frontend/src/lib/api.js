@@ -2,7 +2,7 @@ const BASE_URL = "http://localhost:8000/";
 
 const getToken = () => localStorage.getItem("access_token");
 
-const request = async (endpoint, options = {}) => {
+const request = async (endpoint, options = {}, isRetry = false) => {
     const headers = {
         "Content-Type": "application/json",
         ...(getToken() && { Authorization: `Bearer ${getToken()}` }),
@@ -14,11 +14,21 @@ const request = async (endpoint, options = {}) => {
         headers,
     });
 
-    if (res.status === 401) {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        window.location.href = "/login/";
-        return;
+    if (res.status === 401 && !isRetry) {
+        const refresh = localStorage.getItem("refresh_token");
+        if (refresh) {
+            try {
+                const data = await refreshToken(refresh);
+                localStorage.setItem("access_token", data.access);
+
+                return request(endpoint, options);
+            } catch (err) {
+                localStorage.clear();
+                window.location.href = "/login/";
+            }
+        } else {
+            window.location.href = "/login/";
+        }
     }
 
     if (res.status === 204) {
