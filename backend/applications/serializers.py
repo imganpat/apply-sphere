@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import JobApplication
 
 
-class JobApplicationSerializer(serializers.ModelSerializer):
+class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApplication
         exclude = ("user",)

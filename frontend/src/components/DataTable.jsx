@@ -17,9 +17,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Edit2, ExternalLink, MapPin, Search, Trash2 } from 'lucide-react';
+import { Edit2, ExternalLink, ExternalLinkIcon, MapPin, Search, Trash2 } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteJob, getJobs } from '@/lib/api';
+import { deleteApplication, getApplications } from '@/lib/api';
 
 
 export default function DataTable({ onEdit }) {
@@ -28,13 +28,13 @@ export default function DataTable({ onEdit }) {
 
     const { data: applications = [], isLoading } = useQuery({
         queryKey: ["applications"],
-        queryFn: getJobs,
+        queryFn: getApplications,
     });
 
     const QueryClient = useQueryClient();
 
     const deleteMutation = useMutation({
-        mutationFn: deleteJob,
+        mutationFn: deleteApplication,
         onSuccess: (_, deletedId) => {
             QueryClient.setQueryData(["applications"], (oldData) =>
                 oldData.filter((app) => app.id !== deletedId)
@@ -119,7 +119,7 @@ export default function DataTable({ onEdit }) {
                                                 <div className="min-w-0">
                                                     <p className="font-semibold text-lg text-gray-900 dark:text-white truncate">{app.company}</p>
                                                     {true && (
-                                                        <a href={app.job_link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
+                                                        <a href={app.application_link} target="_blank" rel="noreferrer" className="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
                                                             Website <ExternalLink size={10} />
                                                         </a>
                                                     )}
@@ -160,7 +160,7 @@ export default function DataTable({ onEdit }) {
                                                     <AlertDialogContent size='sm'>
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>
-                                                                Are you sure you want to delete this job?
+                                                                Are you sure you want to delete this application?
                                                             </AlertDialogTitle>
                                                         </AlertDialogHeader>
 

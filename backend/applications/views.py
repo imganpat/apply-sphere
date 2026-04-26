@@ -3,11 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import status
-from jobs.models import JobApplication
-from jobs.serializers import JobApplicationSerializer
+from applications.models import JobApplication
+from applications.serializers import ApplicationSerializer
 
-class JobApplicationViewSet(viewsets.ModelViewSet):
-    serializer_class = JobApplicationSerializer
+
+class ApplicationViewSet(viewsets.ModelViewSet):
+    serializer_class = ApplicationSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -15,4 +16,4 @@ class JobApplicationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.data, status=status.HTTP_201   _CREATED)

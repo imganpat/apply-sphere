@@ -29,7 +29,7 @@ class JobApplication(models.Model):
 
     company = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
-    job_link = models.URLField(blank=True)
+    application_link = models.URLField(blank=True)
     location = models.CharField(max_length=255)
     salary = models.CharField(max_length=100, blank=True)
     source = models.CharField(max_length=100)

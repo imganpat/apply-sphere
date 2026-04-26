@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "./ui/select";
-import { createJob, updateApplication, } from '@/lib/api'
+import { getApplication, updateApplication, } from '@/lib/api'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function ApplicationModal({ open, application, onOpenChange }) {
@@ -29,7 +29,7 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         source: "",
         status: "",
         applied_date: "",
-        jobLink: "",
+        application_link: "",
     });
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                 status: application.status ?? "",
                 source: application.source ?? "",
                 applied_date: application.applied_date?.split("T")[0] ?? "",
-                jobLink: application.job_link ?? "",
+                application_link: application.application_link ?? "",
             })
         } else {
             setFormData({
@@ -53,7 +53,7 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                 status: "",
                 source: "",
                 applied_date: "",
-                jobLink: "",
+                application_link: "",
             })
         }
     }, [application, open])
@@ -66,7 +66,7 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
         status: "",
         source: "",
         applied_date: "",
-        jobLink: "",
+        application_link: "",
     }
 
     const queryClient = useQueryClient();
@@ -74,7 +74,7 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
     const mutation = useMutation({
         mutationFn: ({ type, id, formData }) => (type == "edit")
             ? updateApplication(id, formData)
-            : createJob(formData),
+            : getApplication(formData),
 
         onSuccess: async () => {
             await queryClient.invalidateQueries({
@@ -233,14 +233,14 @@ export default function ApplicationModal({ open, application, onOpenChange }) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="jobLink">Job Link</Label>
+                        <Label htmlFor="application_link">Application Link</Label>
                         <Input
-                            id="jobLink"
+                            id="application_link"
                             type="url"
 
-                            value={formData.jobLink}
+                            value={formData.application_link}
                             onChange={(e) =>
-                                handleChange("jobLink", e.target.value)
+                                handleChange("application_link", e.target.value)
                             }
                             placeholder="https://company.com/jobs/123"
                         />

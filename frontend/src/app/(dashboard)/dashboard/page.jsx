@@ -1,6 +1,6 @@
 "use client"
 
-import { getJobs } from "@/lib/api";
+import { getApplications } from "@/lib/api";
 import { SectionCards } from "@/components/section-cards";
 import RecentApplications from "@/components/RecentApplications";
 import AnalysisCard from "@/components/AnalysisCard";
@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Page() {
   const { data: applications = [], isLoading } = useQuery({
     queryKey: ["applications"],
-    queryFn: getJobs,
+    queryFn: getApplications,
   });
 
 

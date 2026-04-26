@@ -70,24 +70,24 @@ export const refreshToken = (refreshToken) => {
 
 // Jobs
 
-export const getJobs = () => request("api/jobs/");
+export const getApplications = () => request("api/applications/");
 
-export const createJob = (jobData) => {
-    return request("api/jobs/", {
+export const getApplication = (jobData) => {
+    return request("api/applications/", {
         method: "POST",
         body: JSON.stringify(jobData),
     });
 }
 
 export const updateApplication = (id, jobData) => {
-    return request(`api/jobs/${id}/`, {
+    return request(`api/applications/${id}/`, {
         method: "PUT",
         body: JSON.stringify(jobData),
     })
 }
 
-export const deleteJob = (jobId) => {
-    return request(`api/jobs/${jobId}/`, {
+export const deleteApplication = (jobId) => {
+    return request(`api/applications/${jobId}/`, {
         method: "DELETE",
     })
 }
