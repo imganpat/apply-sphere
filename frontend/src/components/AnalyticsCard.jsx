@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 
-export default function AnalysisCard({ applications }) {
-    const totalApplications = applications.length;
-    const interviews = applications.filter(app => app.status === "interview").length;
-    const offers = applications.filter(app => app.status === "offer").length;
-    const interviewRate = totalApplications > 0 ? (interviews / totalApplications) * 100 : 0;
-    const offerRate = totalApplications > 0 ? (offers / totalApplications) * 100 : 0;
+export default function AnalyticsCard({ applications }) {
+    const stats = useMemo(() => {
+        const totalApplications = applications.length;
+
+        let interviews = 0;
+        let offers = 0;
+
+        applications.forEach(app => {
+            if (app.status === "interview") interviews++;
+            else if (app.status === "offer") offers++;
+        })
+
+        return {
+            interviewRate: totalApplications > 0 ? (interviews / totalApplications) * 100 : 0,
+            offerRate: totalApplications > 0 ? (offers / totalApplications) * 100 : 0,
+        }
+
+    }, [applications])
+
 
     return (
         <Card className={"@container/card border-r-1"}>
@@ -25,13 +38,13 @@ export default function AnalysisCard({ applications }) {
                                 Interview Rate
                             </span>
                             <span className="text-sm font-medium">
-                                {interviewRate.toFixed(1)}%
+                                {stats.interviewRate.toFixed(1)}%
                             </span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-purple-500 rounded-full transition-all"
-                                style={{ width: `${interviewRate}%` }}
+                                style={{ width: `${stats.interviewRate}%` }}
                             />
                         </div>
                     </div>
@@ -41,13 +54,13 @@ export default function AnalysisCard({ applications }) {
                                 Offer Rate
                             </span>
                             <span className="text-sm font-medium">
-                                {offerRate.toFixed(1)}%
+                                {stats.offerRate.toFixed(1)}%
                             </span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                             <div
                                 className="h-full bg-green-500 rounded-full transition-all"
-                                style={{ width: `${offerRate}%` }}
+                                style={{ width: `${stats.offerRate}%` }}
                             />
                         </div>
                     </div>

@@ -3,7 +3,7 @@
 import { getApplications } from "@/lib/api";
 import { SectionCards } from "@/components/section-cards";
 import RecentApplications from "@/components/RecentApplications";
-import AnalysisCard from "@/components/AnalysisCard";
+import AnalyticsCard from "@/components/AnalyticsCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 
@@ -40,7 +40,7 @@ export default function Page() {
 
               {/* Analysis and tips */}
               <div className="flex flex-col w-full sm:w-2/6 h-96 rounded-2xl gap-4">
-                <AnalysisCard applications={applications} />
+                <AnalyticsCard applications={applications} />
                 <Card className={"@container/card border-r-1"}>
                   <CardHeader>
                     <CardTitle>Tips to Improve Your Success Rate</CardTitle>
